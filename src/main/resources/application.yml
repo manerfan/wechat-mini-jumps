@@ -1,0 +1,22 @@
+command:
+  adb: adb
+config:
+  resource: classpath:/config
+
+spring:
+  main:
+    banner-mode: console
+
+logging:
+  level:
+    com: warn
+    org: warn
+
+---
+
+spring:
+  profiles: dev
+
+debug:
+  enable: true
+  resource: /data/wechat-jump

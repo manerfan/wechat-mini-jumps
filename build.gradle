@@ -1,0 +1,109 @@
+group "com.manerfan.wechat"
+version "1.0.0"
+description "微信跳一跳辅助"
+
+buildscript {
+    ext {
+        kotlin_version = "1.2.10"
+        springboot_version = "2.0.+"
+    }
+
+    repositories {
+        maven {
+            name "aliyun maven central"
+            url "http://maven.aliyun.com/nexus/content/groups/public"
+        }
+        maven {
+            name "spring repo milestone"
+            url "https://repo.spring.io/milestone"
+        }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springboot_version"
+    }
+}
+
+apply plugin: "idea"
+
+idea {
+    project {
+        languageLevel = "1.8"
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+apply plugin: "java"
+apply plugin: "java-library"
+
+apply plugin: "kotlin"
+apply plugin: "kotlin-allopen"
+apply plugin: "kotlin-spring"
+
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+    maven {
+        name "aliyun maven central"
+        url "http://maven.aliyun.com/nexus/content/groups/public"
+    }
+    maven {
+        name "spring repo milestone"
+        url "https://repo.spring.io/milestone"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    api 'org.springframework.boot:spring-boot-starter'
+
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:0.21"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    api "org.apache.commons:commons-exec:1.3"
+    api "org.fusesource.jansi:jansi:1.16"
+}
+
+bootJar {
+    launchScript()
+}
+
+build {
+    doLast {
+        copy {
+            from "./springboot.conf"
+            into "./build/libs"
+            rename {
+                "${jar.baseName}-${jar.version}.conf"
+            }
+        }
+        copy {
+            from "./src/main/resources/config/"
+            include "*.yml"
+            into "./build/libs/config"
+        }
+    }
+}
+
+task distributeZip(type: Zip) {
+    from("./build/libs")
+}
+
+build.finalizedBy distributeZip
