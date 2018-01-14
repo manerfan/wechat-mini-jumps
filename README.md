@@ -14,7 +14,7 @@ PS: 其实也有种“为什么风头都被python抢去了”的不爽，于是�
 
 ### 使用说明
 
-1. 电脑安装[ABD](https://android.gadgethacks.com/how-to/android-basics-install-adb-fastboot-mac-linux-windows-0164225/)工具
+1. 电脑安装[ADB](https://android.gadgethacks.com/how-to/android-basics-install-adb-fastboot-mac-linux-windows-0164225/)工具
 2. 手机开启“开发者选项”，并打开“USB调试”
 
 ![USB_DEBUG](./doc/USB_DEBUG.png)
@@ -28,10 +28,10 @@ PS: 其实也有种“为什么风头都被python抢去了”的不爽，于是�
 
 ### 实现思路
 
-1. 使用ABD获取游戏截图
+1. 使用ADB获取游戏截图
 2. 利用棋子的颜色识别棋子，利用底色和棋盘的色差识别棋盘
 3. 计算棋子和棋盘的距离，以此获得按压时间
-4. 使用ABD工具按压屏幕，蓄力一跳
+4. 使用ADB工具按压屏幕，蓄力一跳
 
 
 
